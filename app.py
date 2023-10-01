@@ -2,13 +2,12 @@ import requests
 import time
 
 # Hacker News APIのベースURLを定義
-HN_API_BASE_URL = "https://hacker-news.firebaseio.com/v0"
+HN_API_BASE_URL = 'https://hacker-news.firebaseio.com/v0'
 
 
-# トップストーリーを取得する関数
 def get_top_stories(limit=30):
     # トップストーリーのIDを取得
-    top_stories_ids = requests.get(f"{HN_API_BASE_URL}/topstories.json").json()
+    top_stories_ids = requests.get(f'{HN_API_BASE_URL}/topstories.json').json()
     # 結果を保存するための空のリストを初期化
     stories = []
 
@@ -17,18 +16,15 @@ def get_top_stories(limit=30):
         # APIに連続してアクセスしないように1秒待機
         time.sleep(1)
         # 各ストーリーの詳細データを取得
-        story_data = requests.get(f"{HN_API_BASE_URL}/item/{story_id}.json").json()
+        story_data = requests.get(f'{HN_API_BASE_URL}/item/{story_id}.json').json()
         # タイトルとURLが存在する場合のみ、結果リストに追加
-        if "title" in story_data and "url" in story_data:
-            stories.append({"title": story_data["title"], "link": story_data["url"]})
+        if 'title' in story_data and 'url' in story_data:
+            stories.append({'title': story_data['title'], 'link': story_data['url']})
+            print(stories[-1])  # 最新のストーリーをターミナルに出力
     # 結果のリストを返す
     return stories
 
 
 # スクリプトが直接実行された場合のみ以下を実行
-if __name__ == "__main__":
-    # トップストーリーを取得
-    top_stories = get_top_stories()
-    # 各ストーリーを順番に表示
-    for story in top_stories:
-        print(story)
+if __name__ == '__main__':
+    get_top_stories()
